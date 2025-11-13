@@ -1,11 +1,8 @@
 import time
 from threading import Thread
 
+import mouse
 import keyboard
-
-
-active = False
-thread = Thread()
 
 
 def toggle():
@@ -26,13 +23,31 @@ def toggle():
 def clicker(timeout: int = 1):
     while active:
         time.sleep(timeout)
-        print(active)
+        mouse.click()
+
+
+def add_hotkey(hotkey: str):
+    handler = keyboard.add_hotkey(hotkey=hotkey, callback=toggle)
+    return handler
+
+
+def remap_hotkey(new_hotkey: str = ''):
+    global hotkey_handler
+    keyboard.remove_hotkey(hotkey_handler)
+    if new_hotkey:
+        hotkey_handler = add_hotkey(new_hotkey)
+    else:
+        nh = keyboard.read_hotkey()
+        hotkey_handler = add_hotkey(nh)
 
 
 def main():
-    keyboard.add_hotkey('f7', toggle)
+    global hotkey_handler
+    hotkey_handler = add_hotkey('f7')
     keyboard.wait()
 
 
 if __name__ == "__main__":
+    active = False
+    thread = Thread()
     main()
