@@ -1,34 +1,37 @@
 import time
+from threading import Thread
 
-import pynput.mouse as mouse
-import pynput.keyboard as keys
-
-
-activated = False
+import keyboard
 
 
-def on_release(key):
-    global activated
-    activated = not activated
-    sk = str(key).strip()
-    if isinstance(key, keys.Key):
-        print('key', key.name)
-    elif isinstance(key, keys.KeyCode):
-        print('keycode', key.char)
+active = False
+thread = Thread()
 
-def clicker(period: int = 1):
-    controller = mouse.Controller()
-    while True:
-        if activated:
-            time.sleep(period)
-            controller.click(mouse.Button.left)
+
+def toggle():
+    # The event handler could be called after the "active" is set to False,
+    # but before the loop checks the condition,
+    # leading to multiple threads runnign at the same time,
+    # unless the thread handle is preserved between the event handler calls,
+    # and checked to make sure that the previous thread id dead.
+    global active
+    global thread
+    active = not active
+    
+    if active and not thread.is_alive():
+        thread = Thread(target=clicker)
+        thread.start()
+
+
+def clicker(timeout: int = 1):
+    while active:
+        time.sleep(timeout)
+        print(active)
 
 
 def main():
-    listener = keys.Listener(on_release=on_release)
-    listener.start()
-    while True:
-        pass
+    keyboard.add_hotkey('f7', toggle)
+    keyboard.wait()
 
 
 if __name__ == "__main__":
