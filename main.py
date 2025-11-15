@@ -1,3 +1,4 @@
+''' Autoclicker activated by a press of a keyboard key '''
 import time
 from threading import Thread
 
@@ -6,6 +7,7 @@ import keyboard
 
 
 def toggle():
+    ''' Starts and stops the clicker '''
     # The event handler could be called after the "active" is set to False,
     # but before the loop checks the condition,
     # leading to multiple threads runnign at the same time,
@@ -21,17 +23,20 @@ def toggle():
 
 
 def clicker(timeout: int = 1):
+    ''' Clicks the left mouse button with a set speed '''
     while active:
         time.sleep(timeout)
         mouse.click()
 
 
 def add_hotkey(hotkey: str):
+    ''' Add a trigger button '''
     handler = keyboard.add_hotkey(hotkey=hotkey, callback=toggle)
     return handler
 
 
 def remap_hotkey(new_hotkey: str = ''):
+    ''' Change the trigger button '''
     global hotkey_handler
     keyboard.remove_hotkey(hotkey_handler)
     if new_hotkey:
@@ -42,6 +47,7 @@ def remap_hotkey(new_hotkey: str = ''):
 
 
 def main():
+    ''' The app '''
     global hotkey_handler
     hotkey_handler = add_hotkey('f7')
     keyboard.wait()
