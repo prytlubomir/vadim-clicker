@@ -41,16 +41,25 @@ def remap_hotkey(new_hotkey: str = ''):
     keyboard.remove_hotkey(hotkey_handler)
     if new_hotkey:
         hotkey_handler = add_hotkey(new_hotkey)
-    else:
-        nh = keyboard.read_hotkey()
-        hotkey_handler = add_hotkey(nh)
+        return hotkey_handler
+    nh = keyboard.read_hotkey()
+    hotkey_handler = add_hotkey(nh)
+    return nh
+        
 
 
 def main():
     ''' The app '''
     global hotkey_handler
     hotkey_handler = add_hotkey('f7')
-    keyboard.wait()
+    
+    print('Your current Trigger is: f7')
+    while True:
+        input("Press Enter to change the trigger...")
+        time.sleep(0.1)
+        new_trigger = remap_hotkey()
+        print(f"Your new Trigger is: {new_trigger}")
+    #keyboard.wait()
 
 
 if __name__ == "__main__":
