@@ -7,6 +7,8 @@ from typing import Callable
 import mouse
 import keyboard
 
+from start_message import start_message
+
 
 def toggle():
     ''' Starts and stops the clicker '''
@@ -41,9 +43,11 @@ def holder():
     holder_active = True
 
 
-def add_hotkey(hotkey: str, func: Callable):
+def add_hotkey(hotkey: str, function_id: str):
     ''' Add a trigger button '''
-    handler = keyboard.add_hotkey(hotkey=hotkey, callback=func)
+    handler = keyboard.add_hotkey(hotkey=hotkey, callback=trigger_map[function_id][1])
+    trigger_map[function_id][0] = handler
+    
     return handler
 
 
@@ -60,7 +64,7 @@ def remap_hotkey(function_id: str):
     #     return hotkey_handler
     
     nh = keyboard.read_hotkey()
-    hotkey_handler = add_hotkey(nh, trigger_map[function_id][1])
+    hotkey_handler = add_hotkey(nh, function_id)
     trigger_map[function_id][0] = hotkey_handler
 
     return nh
@@ -68,12 +72,10 @@ def remap_hotkey(function_id: str):
 
 def main():
     ''' The app '''
-    clicking_trigger = add_hotkey('f7', trigger_map['0'][1])
-    pressing_trigger = add_hotkey('f8', trigger_map['1'][1])
+    clicking_trigger = add_hotkey('f7', '0')
+    pressing_trigger = add_hotkey('f8', '1')
     
-    with open("start_message.txt") as smf:
-        sm = smf.read()
-        print(sm)
+    print(start_message)
     
     print('Changing the Holder trigger is currently not supported.')
     while True:
