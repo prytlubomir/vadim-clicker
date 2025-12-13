@@ -32,7 +32,7 @@ def clicker(timeout: int = 1):
 
 
 def holder():
-    ''' Holds the left mouse button untill called again '''
+    ''' Holds the left mouse button '''
     global holder_active
     if holder_active:
         mouse.release()
@@ -69,7 +69,7 @@ def remap_hotkey(function_id: str):
 def main():
     ''' The app '''
     clicking_trigger = add_hotkey('f7', trigger_map['0'][1])
-    pressing_trigger = add_hotkey('f8', trigger_map['0'][1])
+    pressing_trigger = add_hotkey('f8', trigger_map['1'][1])
     
     with open("start_message.txt") as smf:
         sm = smf.read()
