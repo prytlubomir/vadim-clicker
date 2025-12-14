@@ -1,3 +1,5 @@
-# Vadim's Clicker
+# Vadim's mouse
 
-A simple autoclicker, created by the request of Vadim.
+A mouse automation app, controlled by keyboard hotkeys.
+
+Created by the request of Vadim.
