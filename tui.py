@@ -56,7 +56,6 @@ def tui(triggers: list[Trigger]):
         id = input('ID: ')
         index = validate_id(id, triggers)
         if index != None:
-            print(f'debug: index={index}')
             triggers[index].remap_trigger()
             system('cls')
             print_info(triggers)
