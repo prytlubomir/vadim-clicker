@@ -34,4 +34,5 @@ Press and hold LBM untill released (either by manual click, or by automatic clic
 `uv sync`
 ### Build for windows
 `uv run build.py`
+
 The executable would be named `main.exe`

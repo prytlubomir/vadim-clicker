@@ -35,4 +35,5 @@ Press and hold LBM untill released (either by manual click, or by automatic clic
 `uv sync`
 ### Зберіть для Windows
 `uv run build.py`
+
 В результаті має вийти виконуваний файл `main.exe`
