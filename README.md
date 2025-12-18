@@ -1,4 +1,4 @@
-# Vadim's mouse
+# Vadim's Clicker
 
 A mouse automation app, controlled by keyboard hotkeys.
 
