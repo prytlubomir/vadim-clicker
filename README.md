@@ -24,7 +24,7 @@ Click LMB untill prompted to stop.
 
 Press and hold LBM untill released (either by manual click, or by automatic click)
 
-## Build from souce
+## Build from source
 
 ### 1. Clone the repository
 `git clone https://github.com/prytlubomir/vadim-clicker`
