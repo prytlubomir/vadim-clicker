@@ -14,7 +14,7 @@ You can download an executable from the [official website](https://prytlubomir.g
 
 You can always check and change your hotkeys on the fly.
 
-<img ald="Terminal User Interface" src="https://prytlubomir.github.io/vadim-clicker-website/tui.png" width="700"/>
+<img alt="Terminal User Interface" src="https://prytlubomir.github.io/vadim-clicker-website/tui.png" width="700"/>
 
 ### Autoclicker
 

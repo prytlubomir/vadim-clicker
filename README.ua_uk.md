@@ -14,7 +14,7 @@
 
 Ви будь-коли можете переглянути чи змінити ваші гарячі клавіші.
 
-<img ald="Terminal User Interface" src="https://prytlubomir.github.io/vadim-clicker-website/tui.png" width="700"/>
+<img alt="Terminal User Interface" src="https://prytlubomir.github.io/vadim-clicker-website/tui.png" width="700"/>
 
 ### Автоклікер
 
