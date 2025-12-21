@@ -1,6 +1,9 @@
 ''' Autoclicker activated by a press of a keyboard key '''
+import sys
+
 import triggers
 import tui
+import gui
 
 
 def main():
@@ -10,6 +13,11 @@ def main():
     
     triggers_list = [clicker, holder]
     
+    # don't forget to include "-- " separator
+    if '-g' in sys.argv:
+        app = gui.VadimsClicker(triggers_list)
+        app.run()
+        return
     tui.tui(triggers_list)
 
 
