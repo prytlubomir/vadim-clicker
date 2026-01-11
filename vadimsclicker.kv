@@ -1,0 +1,104 @@
+#:kivy 2.3.1
+<TriggerInput>:
+
+    # shared styles
+    size_hint_x: 1
+    size_hint_y: '40dp'
+    background_normal: ''
+    background_down: ''
+    background_color: 0, 0, 0, 0
+    font_size: '20dp'
+    text: self.current_trigger
+    color: 0, 63/255, 98/255, 1
+    border_width: '1dp'
+
+    # state-depedent styles
+    bg_color_idle: rgba('#000005')
+    bg_color_hover: rgba('#050516')
+    bg_color_active: self.bg_color_idle
+    
+    border_color_idle: rgba('#151527')
+    border_color_hover: rgba('#1B2A41')
+    border_color_active: rgba('#004FB2')
+    
+    # implementation
+    
+    bg_color: self.bg_color_idle
+    border_color: self.border_color_idle
+    
+    canvas.before:
+        Color:
+            rgba: self.bg_color
+        RoundedRectangle:
+            radius: [5,5,5,5]
+            pos: self.pos
+            size: self.size
+        Color:
+            rgba: self.border_color
+        Line:
+            width: self.border_width
+            rounded_rectangle: [self.x+self.border_width, self.y+self.border_width, self.width-self.border_width*2, self.height-self.border_width*2, 5]
+
+
+<Header>:
+    text_size: self.width, self.font_size
+    halign: "left"
+    valigh: "middle"
+    color: 0, 85/255, 131/255, 1
+    font_size: '20dp'
+    background_color: 0, 0, 0, 0
+    size_hint_x: None
+    size_hint_y: 0.5
+
+
+<MyLayout>:
+    #pos: '7dp', '7dp'
+    colls: 1
+    row_default_height: '40dp'
+    #row_force_default: True
+    rows: 4
+    spacing: '7dp'
+    
+    Header:
+        text: "Header"
+    
+    TriggerInput:
+        current_trigger: 'a'
+
+    TriggerInput:
+        current_trigger: 'b'
+
+    TriggerInput:
+        current_trigger: 'c'
+    
+    #TriggerInput:
+    #    current_trigger: 'd'
+
+
+<Background>:
+    line_gap: '7dp'
+
+    canvas:
+        Color:
+            rgba: (0,0,5/255,1)
+        Rectangle:
+            size: root.size
+        Color:
+            rgba: (15/255,21/255,39/255,1)
+        Line:
+            points: (self.line_gap, 0, self.line_gap, root.height)
+        Line:
+            points: (root.width-self.line_gap, 0, root.width-self.line_gap, root.height)
+        Line:
+            points: (0, self.line_gap, root.width, self.line_gap)
+        Line:
+            points: (0, root.height-self.line_gap, root.width, root.height-self.line_gap)
+<RootWidget>:
+    size: '250dp', '229dp'
+    padding: '14dp'
+
+    Background:
+        size: root.size
+    MyLayout
+        size: (root.width-root.padding*2, root.height-root.padding*2)
+        pos: (root.padding, root.padding)

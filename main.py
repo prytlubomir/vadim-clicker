@@ -2,8 +2,6 @@
 import sys
 
 import triggers
-import tui
-import gui
 
 
 def main():
@@ -15,9 +13,12 @@ def main():
     
     # don't forget to include "-- " separator
     if '-g' in sys.argv:
-        app = gui.VadimsClicker(triggers_list)
+        import gui
+        app = gui.VadimsClickerApp(triggers_list)
         app.run()
         return
+
+    import tui
     tui.tui(triggers_list)
 
 
