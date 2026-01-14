@@ -167,6 +167,7 @@ class Header(Label):
 
 class Background(Widget):
     line_gap = NumericProperty(7)
+    line_width = NumericProperty(1)
     msg = StringProperty()
 
     def __init__(self, *args, **kwargs):
