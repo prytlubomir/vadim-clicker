@@ -40,38 +40,67 @@
 
 
 <Header>:
+    pos: root.pos
+    size_hint_y: None
+    size: root.width, self.font_size
+    font_size: '20dp'
     text_size: self.width, self.font_size
     halign: "left"
     valigh: "middle"
     color: 0, 85/255, 131/255, 1
-    font_size: '20dp'
     background_color: 0, 0, 0, 0
-    size_hint_x: None
-    size_hint_y: 0.5
-
-
-<MyLayout>:
-    colls: 1
-    row_default_height: '40dp'
-    rows: 4
-    spacing: '7dp'
     
-    Header:
-        text: "Header"
-    
-    TriggerInput:
-        current_trigger: 'a'
+    #canvas:
+    #    Color:
+    #        rgba: 1, 1, 1, 0.2
+    #    Rectangle:
+    #        pos: self.pos
+    #        size: self.size
 
-    TriggerInput:
-        #size_hint_y: None
-        #size: 0, '60dp'
-        current_trigger: 'b'
 
-    TriggerInput:
-        current_trigger: 'c'
+<Section>:
+    font_size: '12dp'
+    label_height: '16dp'
+    spacing: '2dp'
+    inner_spacing: '7dp'
     
-    #TriggerInput:
-    #    current_trigger: 'd'
+    Header:    
+        text: root.text
+        #height: root.label_height
+        font_size: root.font_size
+    
+    StackLayout:
+        id: layout
+        spacing: root.inner_spacing
+
+
+
+<ClickerSettings@Section>:
+    text: 'Clicker Settings'
+    
+    TriggerInput
+    TriggerInput
+
+
+<HolderSettings@Section>:
+    text: 'Holder Settings'
+    
+    TriggerInput
+
+
+<TopLayout>:
+    
+    font_size: '20dp'
+    label_size: '40dp'
+    spacing: '9dp'
+    inner_spacing: '15dp'
+    text: 'Vadim Clicker'
+    
+    ClickerSettings:
+        size_hint_y: None
+    HolderSettings:
+        size_hint_y: None
+
 
 
 <Background>:
@@ -98,6 +127,6 @@
 
     Background:
         size: root.size
-    MyLayout
+    TopLayout
         size: (root.width-root.padding*2, root.height-root.padding*2)
         pos: (root.padding, root.padding)

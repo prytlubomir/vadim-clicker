@@ -12,6 +12,8 @@ from kivy.properties import (
     NumericProperty,
     ObjectProperty,
     StringProperty,
+    VariableListProperty,
+    BooleanProperty,
 )
 from kivy.uix.stacklayout import StackLayout
 from kivy.uix.button import Button
@@ -37,7 +39,50 @@ class ButtonStatus(Enum):
     active = "active"
 
 
-class TopLayout(StackLayout):
+
+class Section(StackLayout):
+    
+    text = StringProperty('Section title')
+    font_size = NumericProperty()
+    label_height = NumericProperty()
+    inner_spacing = VariableListProperty(length=2)
+    
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # self.fbind('on_spacing', self.on_spacing)
+    
+    
+    def add_widget(self, widget, *args, **kwargs):
+        
+        if self.ids:
+            # print('Add', widget, 'to', self)
+            if widget not in (self.ids.layout, self.children[0]):
+                # print('--- passed ---')
+                # print(f'--- pos: {widget.pos} ---')
+                # print(self.ids.layout)
+                self.ids.layout.add_widget(widget, *args, **kwargs)
+                # print(dir(self.ids.layout))
+                # print(self.children)
+                # print(self.ids.layout.children)
+                return
+            else:
+                print('--- not passed ---')
+                print(widget)
+                print('--- layout ---')
+                print(self.ids.layout)
+                print('--- child ---')
+                print(self.children[0])
+        
+        super(Section, self).add_widget(widget, *args, **kwargs)
+    
+    
+    # def on_spacing(self, instance, value):
+    #     print('spacing value:', value)
+
+
+
+class TopLayout(Section):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
@@ -128,8 +173,16 @@ class Background(Widget):
         super().__init__(*args, **kwargs)
 
 
-class MyLayout(GridLayout):
-    pass
+
+class MyLayout(StackLayout):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+    
+    def on_pos(self, *args, **kwargs):
+        print(f'layout pos: {self.pos}')
+    
+    def on_size(self, *args, **kwargs):
+        print(f'layout size: {self.size}')
 
 
 class RootWidget(Widget):
