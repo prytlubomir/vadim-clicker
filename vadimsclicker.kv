@@ -1,14 +1,13 @@
 #:kivy 2.3.1
-<TriggerInput>:
+<Input>:
 
     # shared styles
-    size_hint_x: 1
-    size_hint_y: '40dp'
+    size_hint: (1, None)
+    size: 0, '40dp'
     background_normal: ''
     background_down: ''
     background_color: 0, 0, 0, 0
     font_size: '20dp'
-    text: self.current_trigger
     color: 0, 63/255, 98/255, 1
     border_width: '1dp'
 
@@ -79,7 +78,7 @@
     text: 'Clicker Settings'
     
     TriggerInput
-    TriggerInput
+    NumberInput
 
 
 <HolderSettings@Section>:
