@@ -36,6 +36,16 @@
         Line:
             width: self.border_width
             rounded_rectangle: [self.x+self.border_width, self.y+self.border_width, self.width-self.border_width*2, self.height-self.border_width*2, 5]
+    
+
+<NumberInput>:
+    # TextInput's text color is always the last Color used in canvas.before
+    # The following was added to prevent it from following border color.
+    # But I liked how it changes color, so I disabled the fix.
+    # Maybe temporarily.
+    #canvas.before:
+    #    Color:
+    #        rgba: 0, 63/255, 98/255, 1
 
 
 <Header>:
