@@ -36,7 +36,6 @@ class ButtonStatus(Enum):
     active = "active"
 
 
-
 class Section(StackLayout):
     
     text = StringProperty('Section title')
@@ -47,21 +46,13 @@ class Section(StackLayout):
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # self.fbind('on_spacing', self.on_spacing)
     
     
     def add_widget(self, widget, *args, **kwargs):
         
         if self.ids:
-            # print('Add', widget, 'to', self)
             if widget not in (self.ids.layout, self.children[0]):
-                # print('--- passed ---')
-                # print(f'--- pos: {widget.pos} ---')
-                # print(self.ids.layout)
                 self.ids.layout.add_widget(widget, *args, **kwargs)
-                # print(dir(self.ids.layout))
-                # print(self.children)
-                # print(self.ids.layout.children)
                 return
             else:
                 print('--- not passed ---')
@@ -71,17 +62,19 @@ class Section(StackLayout):
                 print('--- child ---')
                 print(self.children[0])
         
-        super(Section, self).add_widget(widget, *args, **kwargs)
-    
-    
-    # def on_spacing(self, instance, value):
-    #     print('spacing value:', value)
-
+        super().add_widget(widget, *args, **kwargs)
+        
 
 
 class TopLayout(Section):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+    
+    # def do_layout(self, *args):
+    #     res = super().do_layout(*args)
+    #     for c in self.ids.layout.children:
+    #         print(f'--- {c.size} ---')
+    #     return res
 
 
 
@@ -109,7 +102,6 @@ class Input(Widget):
     
     
     def on_status(self, *args):
-        # print(f"--- on_status: {args} ---")
         match self.status:
             case ButtonStatus.idle:
                 self.bg_color = self.bg_color_idle
@@ -123,31 +115,16 @@ class Input(Widget):
 
 
     def on_press(self):
-        print(f'--- {self} on_press ---')
         self.status = ButtonStatus.active
 
 
     def on_release(self):
-        # print('--- on_release ---')
         if self.collide_point(*Window.mouse_pos):
             self.status = ButtonStatus.hover
         else:
             self.status = ButtonStatus.idle
 
-    # def _hover(self, window, etype, me):
-    #     print(etype, self.status, me)
-    #     pos_x = me.spos[0] * window.width
-    #     pos_y = me.spos[1] * window.height
-    #     collision = self.collide_point(pos_x, pos_y)
-    #     if collision and self.status is ButtonStatus.idle:
-    #         self.status = ButtonStatus.hover
-    #         return True
-    #     elif not collision and self.status is ButtonStatus.hover:
-    #         self.status = ButtonStatus.idle
-    #     return False
-
     def on_motion(self, window, etype, me):
-        # print(etype, self.status, me)
         pos_x = me.spos[0] * window.width
         pos_y = me.spos[1] * window.height
         collision = self.collide_point(pos_x, pos_y)
@@ -157,7 +134,6 @@ class Input(Widget):
         elif not collision:
             self.status = ButtonStatus.idle
         return False
-        # return self._hover(window, etype, me)
 
 
 class TriggerInput(Input, Button):
@@ -174,6 +150,11 @@ class TriggerInput(Input, Button):
     
     def on_current_trigger(self, *args):
         self.text = self.current_trigger
+    
+    
+    def on_press(self):
+        super().on_press()
+        print(self.current_trigger)
 
 
 class NumberInput(Input, TextInput):
@@ -215,11 +196,6 @@ class MyLayout(StackLayout):
 
 class RootWidget(Widget):
     padding = NumericProperty(7)
-
-    # def __init__(self, *args, **kwargs):
-    #     super().__init__(*args, **kwargs)
-    #     print(f"++++++++++++++++ {self.size} ++++++++++++++++")
-    #     #Clock.schedule_interval(self._print_density, 1)
 
     def _print_density(self, dt):
         print(f"dt={dt}, density={Metrics.density}, db={Metrics.dp}, sp={Metrics.sp}")

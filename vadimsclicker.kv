@@ -58,13 +58,6 @@
     valigh: "middle"
     color: 0, 85/255, 131/255, 1
     background_color: 0, 0, 0, 0
-    
-    #canvas:
-    #    Color:
-    #        rgba: 1, 1, 1, 0.2
-    #    Rectangle:
-    #        pos: self.pos
-    #        size: self.size
 
 
 <Section>:
@@ -72,6 +65,7 @@
     label_height: '16dp'
     spacing: '2dp'
     inner_spacing: '7dp'
+    size_hint: 1, None
     
     Header:    
         text: root.text
@@ -79,12 +73,16 @@
         font_size: root.font_size
     
     StackLayout:
+        size_hint: 1, None
         id: layout
         spacing: root.inner_spacing
 
 
 
 <ClickerSettings@Section>:
+
+    height: '105dp'
+
     text: 'Clicker Settings'
     
     TriggerInput
@@ -92,6 +90,9 @@
 
 
 <HolderSettings@Section>:
+
+    height: '58dp'
+
     text: 'Holder Settings'
     
     TriggerInput
@@ -105,10 +106,9 @@
     inner_spacing: '15dp'
     text: 'Vadim Clicker'
     
-    ClickerSettings:
-        size_hint_y: None
-    HolderSettings:
-        size_hint_y: None
+    ClickerSettings
+    HolderSettings
+    
 
 
 
