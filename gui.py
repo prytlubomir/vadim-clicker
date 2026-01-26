@@ -1,7 +1,9 @@
 from enum import Enum
 
 from kivy.config import Config
+from kivy.uix.behaviors.focus import FocusBehavior
 
+Config.set("kivy", "exit_on_escape", '0')
 Config.set("input", "mouse", "mouse,multitouch_on_demand")  # remove red dots
 Config.set("graphics", "width", "250")
 Config.set("graphics", "height", "229")
@@ -29,9 +31,9 @@ from kivy.utils import rgba
 from triggers import Trigger
 
 
-class ButtonStatus(Enum):
+class InputStatus(Enum):
     idle = "idle"
-    default = "idle"
+    default = idle
     hover = "hover"
     active = "active"
 
@@ -69,19 +71,13 @@ class Section(StackLayout):
 class TopLayout(Section):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-    
-    # def do_layout(self, *args):
-    #     res = super().do_layout(*args)
-    #     for c in self.ids.layout.children:
-    #         print(f'--- {c.size} ---')
-    #     return res
 
 
 
-class Input(Widget):
+class Input(FocusBehavior):
     
     value = StringProperty()
-    status = ObjectProperty(ButtonStatus.idle)
+    status = ObjectProperty(InputStatus.idle)
     
     bg_color = ColorProperty(rgba((1, 1, 1, 1)))
     bg_color_idle = ColorProperty(rgba((1, 1, 1, 1)))
@@ -103,41 +99,45 @@ class Input(Widget):
     
     def on_status(self, *args):
         match self.status:
-            case ButtonStatus.idle:
+            case InputStatus.idle:
                 self.bg_color = self.bg_color_idle
                 self.border_color = self.border_color_idle
-            case ButtonStatus.hover:
+            case InputStatus.hover:
                 self.bg_color = self.bg_color_hover
                 self.border_color = self.border_color_hover
-            case ButtonStatus.active:
+            case InputStatus.active:
                 self.bg_color = self.bg_color_active
                 self.border_color = self.border_color_active
 
 
-    def on_press(self):
-        self.status = ButtonStatus.active
-
-
-    def on_release(self):
-        if self.collide_point(*Window.mouse_pos):
-            self.status = ButtonStatus.hover
+    def on_focus(self, inst, state):
+        if state:
+            self.status = InputStatus.active
         else:
-            self.status = ButtonStatus.idle
+            self.status = InputStatus.idle
+
 
     def on_motion(self, window, etype, me):
         pos_x = me.spos[0] * window.width
         pos_y = me.spos[1] * window.height
         collision = self.collide_point(pos_x, pos_y)
-        if collision and self.status is ButtonStatus.idle:
-            self.status = ButtonStatus.hover
+        if collision and self.status is InputStatus.idle:
+            self.status = InputStatus.hover
             return True
-        elif not collision:
-            self.status = ButtonStatus.idle
+        elif not collision and self.status == InputStatus.hover:
+            self.status = InputStatus.idle
         return False
 
 
 class TriggerInput(Input, Button):
+    '''
+    TODO:
+        + Decide what to do when a user unfocuses the widget, without commiting it's input:
+            - Commit the input
+            - Discard the input 
+    '''
     current_trigger = StringProperty()
+    input_progress = []
 
 
     def __init__(self, *args, **kwargs):
@@ -155,18 +155,27 @@ class TriggerInput(Input, Button):
     def on_press(self):
         super().on_press()
         print(self.current_trigger)
+    
+    
+    def keyboard_on_key_down(self, window, keycode, text, modifiers):
+        if self.input_progress and self.input_progress[-1] is keycode[1]:
+            return
+        self.input_progress.append(keycode[1])
+        self.text = '+'.join(self.input_progress)
+    
+    
+    def keyboard_on_key_up(self, window, keycode):
+        if self.input_progress:
+            self.current_trigger = '+'.join(self.input_progress)
+            self.input_progress = []
+            self.focus = False
+
 
 
 class NumberInput(Input, TextInput):
     
     multiline = BooleanProperty(False)
     input_filter = ObjectProperty('float')
-    
-    def on_touch_down(self, touch):
-        hit = super().on_touch_down(touch)
-        if hit:
-            super().on_press()
-        return hit
 
 
 class Header(Label):
