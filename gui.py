@@ -110,8 +110,8 @@ class Input(FocusBehavior):
                 self.border_color = self.border_color_active
 
 
-    def on_focus(self, inst, state):
-        if state:
+    def on_focus(self, inst, focused):
+        if focused:
             self.status = InputStatus.active
         else:
             self.status = InputStatus.idle
@@ -130,12 +130,7 @@ class Input(FocusBehavior):
 
 
 class TriggerInput(Input, Button):
-    '''
-    TODO:
-        + Decide what to do when a user unfocuses the widget, without commiting it's input:
-            - Commit the input
-            - Discard the input 
-    '''
+
     current_trigger = StringProperty()
     input_progress = []
 
@@ -148,8 +143,12 @@ class TriggerInput(Input, Button):
             self.current_trigger = "f7"
     
     
-    def on_current_trigger(self, *args):
-        self.text = self.current_trigger
+    def on_current_trigger(self, inst, hotkey):
+        self.text = hotkey
+    
+    
+    def _compile_hotkey(self, progress):
+        return '+'.join(progress)
     
     
     def on_press(self):
@@ -161,14 +160,21 @@ class TriggerInput(Input, Button):
         if self.input_progress and self.input_progress[-1] is keycode[1]:
             return
         self.input_progress.append(keycode[1])
-        self.text = '+'.join(self.input_progress)
+        self.text = self._compile_hotkey(self.input_progress)
     
     
     def keyboard_on_key_up(self, window, keycode):
         if self.input_progress:
-            self.current_trigger = '+'.join(self.input_progress)
+            self.current_trigger = self._compile_hotkey(self.input_progress)
             self.input_progress = []
             self.focus = False
+    
+    
+    def on_focus(self, inst, focused):
+        super().on_focus(inst, focused)
+        if not focused and self.input_progress:
+            self.input_progress = []
+            self.text = self.current_trigger
 
 
 
