@@ -1,0 +1,34 @@
+<Background>:
+    line_gap: '7dp'
+    line_width: '1dp'
+
+    canvas:
+        Color:
+            rgba: (0,0,5/255,1)
+        Rectangle:
+            size: root.size
+        Color:
+            rgba: (15/255,21/255,39/255,1)
+        Line:
+            points: (self.line_gap, 0, self.line_gap, root.height)
+            width: self.line_width
+        Line:
+            points: (root.width-self.line_gap, 0, root.width-self.line_gap, root.height)
+            width: self.line_width
+        Line:
+            points: (0, self.line_gap, root.width, self.line_gap)
+            width: self.line_width
+        Line:
+            points: (0, root.height-self.line_gap, root.width, root.height-self.line_gap)
+            width: self.line_width
+
+
+<RootWidget>:
+    size: '250dp', '229dp'
+    padding: '14dp'
+
+    Background:
+        size: root.size
+    TopLayout
+        size: (root.width-root.padding*2, root.height-root.padding*2)
+        pos: (root.padding, root.padding)

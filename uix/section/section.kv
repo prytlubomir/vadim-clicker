@@ -1,0 +1,28 @@
+<Header>:
+    pos: root.pos
+    size_hint_y: None
+    size: root.width, self.font_size
+    font_size: '20dp'
+    text_size: self.width, self.font_size
+    halign: "left"
+    valigh: "middle"
+    color: 0, 85/255, 131/255, 1
+    background_color: 0, 0, 0, 0
+
+
+<Section>:
+    font_size: '12dp'
+    label_height: '16dp'
+    spacing: '2dp'
+    inner_spacing: '7dp'
+    size_hint: 1, None
+    
+    Header:    
+        text: root.text
+        #height: root.label_height
+        font_size: root.font_size
+    
+    StackLayout:
+        size_hint: 1, None
+        id: layout
+        spacing: root.inner_spacing

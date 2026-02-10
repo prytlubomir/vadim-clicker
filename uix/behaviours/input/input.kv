@@ -1,0 +1,37 @@
+<Input>:
+
+    # shared styles
+    size_hint: (1, None)
+    size: 0, '40dp'
+    background_normal: ''
+    background_down: ''
+    background_color: 0, 0, 0, 0
+    font_size: '20dp'
+    color: 0, 63/255, 98/255, 1
+    border_width: '1dp'
+
+    # state-depedent styles
+    bg_color_idle: rgba('#000005')
+    bg_color_hover: rgba('#050516')
+    bg_color_active: self.bg_color_idle
+    
+    border_color_idle: rgba('#151527')
+    border_color_hover: rgba('#1B2A41')
+    border_color_active: rgba('#004FB2')
+    
+    # default styles
+    bg_color: self.bg_color_idle
+    border_color: self.border_color_idle
+    
+    canvas.before:
+        Color:
+            rgba: self.bg_color
+        RoundedRectangle:
+            radius: [5,5,5,5]
+            pos: self.pos
+            size: self.size
+        Color:
+            rgba: self.border_color
+        Line:
+            width: self.border_width
+            rounded_rectangle: [self.x+self.border_width, self.y+self.border_width, self.width-self.border_width*2, self.height-self.border_width*2, 5]
