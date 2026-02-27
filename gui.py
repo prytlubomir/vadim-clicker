@@ -3,7 +3,7 @@ from kivy.config import Config
 Config.set("kivy", "exit_on_escape", '0')
 Config.set("input", "mouse", "mouse,multitouch_on_demand")  # remove red dots
 Config.set("graphics", "width", "250")
-Config.set("graphics", "height", "229")
+Config.set("graphics", "height", "183")
 Config.set("graphics", "resizable", False)
 from kivy.app import App
 
