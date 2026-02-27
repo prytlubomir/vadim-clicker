@@ -9,14 +9,16 @@ from kivy.app import App
 
 from uix.triggerinput import TriggerInput
 from uix.numberinput import NumberInput
+from uix.triggersettings import TriggerSettings
 from uix.root import RootWidget
 
 from triggers import Trigger
 
 
 class VadimsClickerApp(App):
-    def __init__(self, triggers: Trigger, *args, **kwargs):
+    def __init__(self, triggers: [Trigger], *args, **kwargs):
+        self.triggers = triggers
         super().__init__(*args, **kwargs)
 
     def build(self):
-        return RootWidget()
+        return RootWidget(triggers=self.triggers)

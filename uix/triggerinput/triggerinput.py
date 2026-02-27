@@ -1,5 +1,8 @@
 from kivy.uix.button import Button
-from kivy.properties import StringProperty
+from kivy.properties import (
+    StringProperty,
+    ObjectProperty
+)
 
 from uix.behaviours.input import Input
 
@@ -7,6 +10,7 @@ from uix.behaviours.input import Input
 class TriggerInput(Input, Button):
 
     current_trigger = StringProperty()
+    trigger = ObjectProperty()
     input_progress = []
 
 
@@ -18,8 +22,18 @@ class TriggerInput(Input, Button):
             self.current_trigger = "f7"
     
     
+    def callback(self):
+        if self.trigger and self.current_trigger != self.trigger.hotkey:
+            self.trigger.remap_trigger(self.current_trigger)
+
+    
+    def on_trigger(self, obj, trigger):
+        self.current_trigger = trigger.hotkey
+    
+    
     def on_current_trigger(self, inst, hotkey):
         self.text = hotkey
+        self.callback()
     
     
     def _compile_hotkey(self, progress):

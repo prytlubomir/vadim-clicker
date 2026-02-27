@@ -1,24 +1,26 @@
 #:kivy 2.3.1
 
-<ClickerSettings@Section>:
+<ClickerSettings@TriggerSettings>:
 
     height: '105dp'
 
     text: 'Clicker Settings'
     
     TriggerInput:
-        current_trigger: "f7"
+        trigger: root.trigger
+        #current_trigger: self.trigger.hotkey
     NumberInput
 
 
-<HolderSettings@Section>:
+<HolderSettings@TriggerSettings>:
 
     height: '58dp'
 
     text: 'Holder Settings'
     
     TriggerInput:
-        current_trigger: "f8"
+        trigger: root.trigger
+        #current_trigger: trigger.hotkey
 
 
 <TopLayout>:
@@ -29,5 +31,7 @@
     inner_spacing: '15dp'
     text: 'Vadim Clicker'
     
-    ClickerSettings
-    HolderSettings
+    ClickerSettings:
+        trigger: root.triggers[0] if root.triggers else None
+    HolderSettings:
+        trigger: root.triggers[1] if root.triggers else None

@@ -10,6 +10,10 @@ def main():
     holder = triggers.Holder()
     
     triggers_list = [clicker, holder]
+    # triggers_dict = {}
+    # for trigger in triggers_list:
+    #     triggers_dict.update({trigger.name.lower(): trigger})
+    # print(f"--- Triggers dict: \n\n{triggers_dict}\n\n")
     
     # don't forget to include "-- " separator
     if '-g' in sys.argv:
