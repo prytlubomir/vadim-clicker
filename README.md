@@ -10,12 +10,6 @@ You can download an executable from the [official website](https://vadimsclicker
 
 ## Features
 
-### A simple TUI to manage your hotkeys
-
-You can always check and change your hotkeys on the fly.
-
-<img alt="Terminal User Interface" src="https://prytlubomir.github.io/vadim-clicker-website/tui.png" width="700"/>
-
 ### Autoclicker
 
 Click LMB untill prompted to stop.
@@ -55,7 +49,5 @@ If you don't like the default hotkeys, you can choose between two ways to change
 `cd vadim-clicker`
 ### 3. Set up the environment
 `uv sync`
-### Build for windows
+### Build
 `uv run build.py`
-
-The executable would be named `main.exe`
