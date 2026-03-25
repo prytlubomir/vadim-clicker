@@ -8,13 +8,7 @@
 
 Ви можете завантажити виконуваний файл з [офіційного вебсайту](https://prytlubomir.github.io/vadim-clicker-website/).
 
-## Особливості
-
-### Термінальна панель керування
-
-Ви будь-коли можете переглянути чи змінити ваші гарячі клавіші.
-
-<img alt="Terminal User Interface" src="https://prytlubomir.github.io/vadim-clicker-website/tui.png" width="700"/>
+## Функції
 
 ### Автоклікер
 
@@ -22,8 +16,27 @@
 
 ### Автотримач
 
-Press and hold LBM untill released (either by manual click, or by automatic click)
 Затискає ліву кнопку миші, поки ви не відпустите її вручну, або за допомогою `Автоклікера`.
+
+## Використання
+
+Ви можене вмикати й вимикати будь-яку функцію, натискаючи клавішу на клавіатурі.
+
+### Стандартні клавіші керування:
+- `f7` для автоклікера,
+- `f8` для затискача лівої кнопки миші.
+
+## Налаштування керівних клавіш
+
+Якщо вам недовподоби стандартні клавіші, ви можете їх змінити одним з двох способів:
+
+### Через графічну панель керування
+
+<img alt="Графічний інтерфейс" src="https://prytlubomir.github.io/vadim-clicker-website/gui.png" width="250"/>
+
+### Через термінальний інтерфейс
+
+<img alt="Термінальний інтерфейс" src="https://prytlubomir.github.io/vadim-clicker-website/tui.png" width="700"/>
 
 ## Зібрати з вихідного коду
 
@@ -33,7 +46,5 @@ Press and hold LBM untill released (either by manual click, or by automatic clic
 `cd vadim-clicker`
 ### 3. Налаштуйте віртуальне оточення
 `uv sync`
-### Зберіть для Windows
+### Зберіть виконуваний файл
 `uv run build.py`
-
-В результаті має вийти виконуваний файл `main.exe`
