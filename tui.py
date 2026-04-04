@@ -1,11 +1,11 @@
 ''' Terminal User Interface for remapping triggers '''
 
-from os import system
-
 from prettytable import PrettyTable
 
 from triggers import Trigger
 import messages
+import sys
+import os
 
 
 type Table = list[list]
@@ -57,5 +57,20 @@ def tui(triggers: list[Trigger]):
         index = validate_id(id, triggers)
         if index != None:
             triggers[index].remap_trigger()
-            system('cls')
+            if os.name == 'nt':
+                os.system('cls')
+            else:
+                os.system('clear')
             print_info(triggers)
+
+
+def start():
+    import triggers
+    tui(triggers.triggers_list)
+
+
+if __name__ == "__main__":
+    if '-g' in sys.argv:
+        os.system("gui.exe")
+    else:
+        start()

@@ -22,3 +22,14 @@ class VadimsClickerApp(App):
 
     def build(self):
         return RootWidget(triggers=self.triggers)
+
+
+def start():
+    import triggers
+    app = VadimsClickerApp(triggers.triggers_list)
+    app.run()
+
+if __name__ == "__main__":
+    start()
+    
+    
