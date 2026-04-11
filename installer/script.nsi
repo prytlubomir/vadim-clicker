@@ -5,6 +5,7 @@
 Name "Vadim's Clicker"
 InstallDir "$PROGRAMFILES\VadimsClicker"
 OutFile "VadimsClicker.exe"
+BrandingText "Liubomyr Pryt"
 
 
 !insertmacro MUI_PAGE_WELCOME
