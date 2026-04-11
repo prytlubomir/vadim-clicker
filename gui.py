@@ -16,9 +16,21 @@ from triggers import Trigger
 
 
 class VadimsClickerApp(App):
-    def __init__(self, triggers: [Trigger], *args, **kwargs):
+    def __init__(self, triggers: [Trigger], *args, **kwargs):        
         self.triggers = triggers
         super().__init__(*args, **kwargs)
 
     def build(self):
+        self.icon = './src/logo.svg'
         return RootWidget(triggers=self.triggers)
+
+
+def start():
+    import triggers
+    app = VadimsClickerApp(triggers.triggers_list)
+    app.run()
+
+if __name__ == "__main__":
+    start()
+    
+    
