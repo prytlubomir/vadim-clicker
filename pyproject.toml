@@ -11,3 +11,8 @@ dependencies = [
     "nuitka>=2.8.9",
     "prettytable>=3.17.0",
 ]
+
+[dependency-groups]
+dev = [
+    "imageio>=2.37.3",
+]

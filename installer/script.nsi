@@ -1,5 +1,7 @@
 !include "MUI2.nsh"
 
+!define MUI_ICON "..\design\logo_icon.ico"
+
 Name "Vadim's Clicker"
 InstallDir "$PROGRAMFILES\VadimsClicker"
 OutFile "VadimsClicker.exe"

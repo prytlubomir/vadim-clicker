@@ -10,14 +10,16 @@ BUILD_GUI_CMD = """py -m nuitka --mode=standalone
                --include-data-dir=./uix=uix 
                --include-data-files=./vadimsclicker.kv=vadimsclicker.kv
                --output-dir=./dist
-               --windows-console-mode=disable
+               --windows-console-mode=disable 
+               --windows-icon-from-ico=./design/logo.png
 """
 
 BUILD_TUI_CMD = """py -m nuitka --mode=standalone
                --main=tui.py
-               --include-data-dir=./src=src 
+               --include-data-files=./src/ascii.txt=src/ascii 
                --output-dir=./dist
                --windows-console-mode=force
+               --windows-icon-from-ico=./design/logo.png
 """
 
 
