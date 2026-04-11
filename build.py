@@ -1,10 +1,13 @@
 ''' A shortcut for building the app '''
 import os
+import sys
 import shutil
 
 
+NUITKA = f'\"{sys.executable}\" -m nuitka'
+
 # split into lines for readability
-BUILD_GUI_CMD = """py -m nuitka --mode=standalone
+BUILD_GUI_CMD = f"""{NUITKA} --mode=standalone
                --main=gui.py
                --include-data-dir=./src=src 
                --include-data-dir=./uix=uix 
@@ -14,7 +17,7 @@ BUILD_GUI_CMD = """py -m nuitka --mode=standalone
                --windows-icon-from-ico=./design/logo.png
 """
 
-BUILD_TUI_CMD = """py -m nuitka --mode=standalone
+BUILD_TUI_CMD = f"""{NUITKA} --mode=standalone
                --main=tui.py
                --include-data-files=./src/ascii.txt=src/ascii 
                --output-dir=./dist
@@ -43,8 +46,10 @@ def build():
     print('------------ compiling dist ------------')
     if 'vadim-clicker.dist' in os.listdir('./dist'):
         shutil.rmtree('./dist/vadim-clicker.dist')
-    os.replace('./dist/gui.dist', './dist/vadim-clicker.dist')
-    os.replace('./dist/tui.dist/tui.exe', './dist/vadim-clicker.dist/tui.exe')
+    print("Renaming dist directory...")
+    shutil.move('./dist/gui.dist', './dist/vadim-clicker.dist')
+    print("Moving TUI binary...")
+    shutil.move('./dist/tui.dist/tui.exe', './dist/vadim-clicker.dist/tui.exe')
     print('------------ dist done ------------')
     
 
