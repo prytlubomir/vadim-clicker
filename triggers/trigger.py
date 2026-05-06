@@ -42,9 +42,10 @@ class Trigger:
         ''' Change hotkey '''
         keyboard.remove_hotkey(self.handler)
         if hotkey:
-            self.map_trigger(hotkey)
-            return hotkey
-        time.sleep(0.3)
-        new_hotkey = keyboard.read_hotkey()
+            new_hotkey = hotkey
+        else:
+            time.sleep(0.3)
+            new_hotkey = keyboard.read_hotkey()
+            
         self.map_trigger(new_hotkey)
         return new_hotkey
