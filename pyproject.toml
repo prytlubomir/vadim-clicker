@@ -5,7 +5,7 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
-    "keyboard>=0.13.5",
+    "keyboard",
     "kivy>=2.3.1",
     "mouse>=0.7.1",
     "nuitka>=2.8.9",
@@ -16,3 +16,6 @@ dependencies = [
 dev = [
     "imageio>=2.37.3",
 ]
+
+[tool.uv.sources]
+keyboard = { path = "keyboard-0.13.5.tar.gz" }
