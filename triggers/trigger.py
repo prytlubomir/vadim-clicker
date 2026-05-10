@@ -40,12 +40,23 @@ class Trigger:
 
     def remap_trigger(self, hotkey: str = '') -> str:
         ''' Change hotkey '''
-        keyboard.remove_hotkey(self.handler)
+        self.remap_proceed = True
+        
         if hotkey:
             new_hotkey = hotkey
         else:
             time.sleep(0.3)
             new_hotkey = keyboard.read_hotkey()
-            
-        self.map_trigger(new_hotkey)
-        return new_hotkey
+
+        if self.remap_proceed:
+            keyboard.remove_hotkey(self.handler)
+            self.map_trigger(new_hotkey)
+            return new_hotkey
+
+    def cancel_remap(self):
+        self.remap_proceed = False
+
+
+    def input_progress(self):
+        ''' Lookup hotkey input progress'''
+        return [key.name for key in keyboard._pressed_events.values()]
