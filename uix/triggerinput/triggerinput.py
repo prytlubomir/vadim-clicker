@@ -1,3 +1,5 @@
+from threading import Thread
+
 from kivy.uix.button import Button
 from kivy.properties import (
     StringProperty,
@@ -9,32 +11,24 @@ from uix.behaviours.input import Input
 
 class TriggerInput(Input, Button):
 
-    current_trigger = StringProperty()
+    hotkey = StringProperty()
     trigger = ObjectProperty()
-    input_progress = []
 
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         if "text" in kwargs.keys():
-            self.current_trigger = kwargs["text"]
-        else:
-            self.current_trigger = "f7"
-    
-    
-    def callback(self):
-        if self.trigger and self.current_trigger != self.trigger.hotkey:
-            self.trigger.remap_trigger(self.current_trigger)
+            self.hotkey = kwargs["text"]
 
     
     def on_trigger(self, obj, trigger):
-        self.current_trigger = trigger.hotkey
+        ''' Update trigger's hotkey when the trigger is the in the layout. '''
+        self.hotkey = trigger.hotkey
     
     
-    def on_current_trigger(self, inst, hotkey):
+    def on_hotkey(self, inst, hotkey):
         self.text = hotkey
-        self.callback()
-    
+
     
     def _compile_hotkey(self, progress):
         return '+'.join(progress)
@@ -42,25 +36,23 @@ class TriggerInput(Input, Button):
     
     def on_press(self):
         super().on_press()
-        print(self.current_trigger)
+        Thread(target=self.trigger.remap_trigger).start()
+        print(self.hotkey)
     
     
     def keyboard_on_key_down(self, window, keycode, text, modifiers):
-        if self.input_progress and self.input_progress[-1] is keycode[1]:
-            return
-        self.input_progress.append(keycode[1])
-        self.text = self._compile_hotkey(self.input_progress)
+        if self.focus:
+            self.hotkey = self._compile_hotkey(self.trigger.input_progress())
     
     
     def keyboard_on_key_up(self, window, keycode):
-        if self.input_progress:
-            self.current_trigger = self._compile_hotkey(self.input_progress)
-            self.input_progress = []
+        ''' Stop updating the text '''
+        if self.focus:
             self.focus = False
     
     
     def on_focus(self, inst, focused):
         super().on_focus(inst, focused)
-        if not focused and self.input_progress:
-            self.input_progress = []
-            self.text = self.current_trigger
+        if not focused:
+            self.trigger.remap_proceed = False
+            self.hotkey = self.trigger.hotkey
