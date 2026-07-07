@@ -6,7 +6,7 @@
 
 ## Завантажити для Windows
 
-Ви можете завантажити виконуваний файл з [офіційного вебсайту](https://prytlubomir.github.io/vadim-clicker-website/).
+Ви можете завантажити виконуваний файл з [офіційного вебсайту](https://vadimsclicker.pryt.space/).
 
 ## Функції
 
@@ -32,11 +32,11 @@
 
 ### Через графічну панель керування
 
-<img alt="Графічний інтерфейс" src="https://prytlubomir.github.io/vadim-clicker-website/gui.png" width="250"/>
+<img alt="Графічний інтерфейс" src="https://vadimsclicker.pryt.space/gui.png" width="250"/>
 
 ### Через термінальний інтерфейс
 
-<img alt="Термінальний інтерфейс" src="https://prytlubomir.github.io/vadim-clicker-website/tui.png" width="700"/>
+<img alt="Термінальний інтерфейс" src="https://vadimsclicker.pryt.space/tui.png" width="700"/>
 
 ## Зібрати з вихідного коду
 

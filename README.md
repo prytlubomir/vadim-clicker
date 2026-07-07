@@ -6,7 +6,7 @@ Created by the request of Vadim.
 
 ## Download for Windows
 
-You can download an executable from the [official website](https://prytlubomir.github.io/vadim-clicker-website/).
+You can download an executable from the [official website](https://vadimsclicker.pryt.space/).
 
 ## Features
 
@@ -33,12 +33,12 @@ If you don't like the default hotkeys, you can choose between two ways to change
 
 #### A simple GUI
 
-<img alt="GUI window" src="https://prytlubomir.github.io/vadim-clicker-website/gui.png" width="250"/>
+<img alt="GUI window" src="https://vadimsclicker.pryt.space/gui.png" width="250"/>
 
 
 #### A light TUI
 
-<img alt="Terminal User Interface" src="https://prytlubomir.github.io/vadim-clicker-website/tui.png" width="700"/>
+<img alt="Terminal User Interface" src="https://vadimsclicker.pryt.space/tui.png" width="700"/>
 
 
 ## Build from source
