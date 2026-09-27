@@ -20,7 +20,7 @@ import time
 import keyboard
 
 
-class Settings:
+class PersistantSettings:
     __filepath = "./settings.ini"
     
     def __init__(self, name=''):
@@ -30,13 +30,19 @@ class Settings:
         if not self.config.has_section(self.name):
             self.config[self.name] = {}
             self._update()
+        self.registered = []
+
+    def register(self, name):
+        self.registered.append(name)
+        self.config[self.name][name] = ''
 
     def write(self, name, value=''):
-        self.settings[self.name][name] = value
+        if not self.config.has_option(self.name, name):
+            raise KeyError(f'option "{name}" is not registered!')
+        self.config[self.name][name] = value
         thr = threading.Thread(target=self._update)
         thr.join()
         
-
     def read(self, name):
         if not self.config.has_option(self.name, name):
             return None
