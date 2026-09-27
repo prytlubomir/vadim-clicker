@@ -30,11 +30,17 @@ class PersistantSettings:
         if not self.config.has_section(self.name):
             self.config[self.name] = {}
             self._update()
-        self.registered = []
+        self.registered = {}
 
-    def register(self, name):
-        self.registered.append(name)
-        self.config[self.name][name] = ''
+    def register(self, name, transformer=lambda x: x, **kwargs):
+        setting = {name: transformer}
+        value = ''
+        if 'value' in kwargs:
+            value = kwargs['value']
+            setattr(self, name, value)
+        self.config[self.name][name] = str(value)
+        print('setting:', setting)
+        self.registered.update(setting)
 
     def write(self, name, value=''):
         if not self.config.has_option(self.name, name):
@@ -46,7 +52,9 @@ class PersistantSettings:
     def read(self, name):
         if not self.config.has_option(self.name, name):
             return None
-        return self.config[self.name][name]
+        config_value = self.config[self.name][name]
+        final_value = self.registered['name'](config_value)
+        return final_value
 
     def _update(self):
         with open(self.__filepath, mode="w", encoding="utf-8") as configfile:
