@@ -18,6 +18,28 @@ import time
 import keyboard
 
 
+class Settings:
+    __filepath = "./settings.ini"
+    
+    def __init__(self, name=''):
+        self.name = name if name else type(self).__name__
+        self.config = configparser.ConfigParser(self.__filepath)
+
+    def write(self, name, value=''):
+        self.settings[self.name][name] = value
+        thr = threading.Thread(target=self._update)
+        thr.join()
+        
+
+    def read(self, name):
+        return self.config[self.name][name]
+
+    def _update(self):
+        with open(self.__filepath, mode="w", encoding="utf-8") as configfile:
+            self.config.write(configfile)
+        
+
+
 class Trigger:
     ''' A base class for a trigger '''
 
