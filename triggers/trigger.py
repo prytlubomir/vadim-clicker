@@ -59,9 +59,21 @@ class Trigger:
 
     def __init__(self, hotkey: str, callback: Callable | None = None, name: str = 'Trigger'):
         self.name = name
+        self.persistant = PersistantSettings(self.name)
         if callback:
             self.callback = callback
         self.map_trigger(hotkey)
+
+
+    def __setattr__(self, name: str, value: Any, /) -> None:
+        persistant = self.__dict__.get('persistant')
+        if (
+            persistant is not None
+            and isinstance(name, str)
+            and name in persistant.registered
+        ):
+            persistant.write(name, value)
+        super().__setattr__(name, value)
 
 
     def callback(self) -> None:
