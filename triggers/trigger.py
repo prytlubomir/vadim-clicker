@@ -12,7 +12,9 @@ Methods:
     - remap_trigger - removes the old listener, and replaces it with a new one, that listens for the new hotkey;
 '''
 
-from typing import Callable
+from typing import Callable, Any
+import configparser
+import threading
 import time
 
 import keyboard
@@ -23,7 +25,8 @@ class Settings:
     
     def __init__(self, name=''):
         self.name = name if name else type(self).__name__
-        self.config = configparser.ConfigParser(self.__filepath)
+        self.config = configparser.ConfigParser()
+        self.config.read(self.__filepath)
         if not self.config.has_section(self.name):
             self.config[self.name] = {}
             self._update()
