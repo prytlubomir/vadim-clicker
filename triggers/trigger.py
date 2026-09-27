@@ -47,6 +47,7 @@ class PersistantSettings:
             raise KeyError(f'option "{name}" is not registered!')
         self.config[self.name][name] = value
         thr = threading.Thread(target=self._update)
+        thr.start()
         thr.join()
         
     def read(self, name):
