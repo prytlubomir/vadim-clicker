@@ -24,6 +24,9 @@ class Settings:
     def __init__(self, name=''):
         self.name = name if name else type(self).__name__
         self.config = configparser.ConfigParser(self.__filepath)
+        if not self.config.has_section(self.name):
+            self.config[self.name] = {}
+            self._update()
 
     def write(self, name, value=''):
         self.settings[self.name][name] = value
@@ -32,6 +35,8 @@ class Settings:
         
 
     def read(self, name):
+        if not self.config.has_option(self.name, name):
+            return None
         return self.config[self.name][name]
 
     def _update(self):
