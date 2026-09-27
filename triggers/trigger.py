@@ -69,6 +69,7 @@ class Trigger:
     def __init__(self, hotkey: str, callback: Callable | None = None, name: str = 'Trigger'):
         self.name = name
         self.persistant = PersistantSettings(self.name)
+        self.persistant.register('hotkey')
         if callback:
             self.callback = callback
         self.map_trigger(hotkey)
