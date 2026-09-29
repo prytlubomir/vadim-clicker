@@ -20,53 +20,82 @@ import time
 import keyboard
 
 
-class PersistantSettings:
+class Config:
     __filepath = "./settings.ini"
     
-    def __init__(self, name=''):
-        self.name = name if name else type(self).__name__
-        self.config = configparser.ConfigParser()
-        self.config.read(self.__filepath)
-        if not self.config.has_section(self.name):
-            self.config[self.name] = {}
+    def __init__(self, section=''):
+        self.section = section if section else type(self).__name__
+        self.config = self.read_file()
+        if not self.config.has_section(self.section):
+            self.config[self.section] = {}
             self._update()
-        self.registered = {}
+        self.options = {}
 
-    def register(self, name, transformer=lambda x: x, **kwargs):
-        setting = {name: transformer}
+    def read_file(self):
+        config = configparser.ConfigParser()
+        config.read(self.__filepath)
+        return config
+
+    def add_option(self, option, transformer=lambda x: x, **kwargs):
+        setting = {option: transformer}
         value = ''
         if 'value' in kwargs:
             value = kwargs['value']
-            setattr(self, name, value)
-        self.config[self.name][name] = str(value)
+            setattr(self, option, value)
+        self.config[self.section][option] = str(value)
         print('setting:', setting)
-        self.registered.update(setting)
+        self.options.update(setting)
 
-    def write(self, name, value=''):
-        if not self.config.has_option(self.name, name):
-            raise KeyError(f'option "{name}" is not registered!')
-        self.config[self.name][name] = value
-        thr = threading.Thread(target=self._update, args=[name])
+    def write(self, option, value=''):
+        if not self.config.has_option(self.section, option):
+            raise KeyError(f'option "{option}" is not registered!')
+        self.config[self.section][option] = value
+        thr = threading.Thread(target=self.update_file)
         thr.start()
         thr.join()
-        
-    def read(self, name):
-        if not self.config.has_option(self.name, name):
+    
+    def read(self, option):
+        if not self.config.has_option(self.section, option):
             return None
-        config_value = self.config[self.name][name]
-        final_value = self.registered['name'](config_value)
+        self.update_instace()
+        config_value = self.config[self.section][option]
+        final_value = self.registered[option](config_value)
         return final_value
 
-    def _update(self, name):
-        config_ = configparser.ConfigParser()
-        config_.read(self.__filepath)
-        for section in config_.sections():
-            if section != self.name:
-                for option in config_.options(section):
-                    self.config[section][option] = config_[section][option]
+    def update_instace(self, stale_only=False):
+        config = self.read_file()
+        for section in config.sections():
+            if stale_only and section == self.section:
+                continue
+            for opt in config.options(section):
+                self.config[section][opt] = config[section][opt]
 
-        with open(self.__filepath, mode="w", encoding="utf-8") as configfile:
-            self.config.write(configfile)
+    def update_file(self):
+        self.update_instace(stale_only=True)
+        with open(self.__filepath, mode="w", encoding="utf-8") as config_file:
+            self.config.write(config_file)
+
+    # def _update(self):
+    #     '''
+    #     Read the config file again and update the parts of self.config that are not related to the current instance with the values from the file.
+    #     Then, rewrite the file with the data from self.config.
+    #     Why?
+    #     Because an instance of this class is responsible for only one section of the whole config, and instances don't talk to each other,
+    #     so data from other sections becomes stale.
+    #     ConfigParser does not allow to override only a single section, so updating the file without updating the instance first
+    #     overrides changes made by other instances.
+    #     '''
+    #     current_config = configparser.ConfigParser()
+    #     current_config.read(self.__filepath)
+        
+    #     for section in current_config.sections():
+    #         if section == self.section:
+    #             continue
+    #         for opt in current_config.options(section):
+    #             self.config[section][opt] = current_config[section][opt]
+
+    #     with open(self.__filepath, mode="w", encoding="utf-8") as configfile:
+    #         self.config.write(configfile)
         
 
 
@@ -75,21 +104,21 @@ class Trigger:
 
     def __init__(self, hotkey: str, callback: Callable | None = None, name: str = 'Trigger'):
         self.name = name
-        self.persistant = PersistantSettings(self.name)
-        self.persistant.register('hotkey')
+        self.config = Config(self.name)
+        self.config.add_option('hotkey')
         if callback:
             self.callback = callback
         self.map_trigger(hotkey)
 
 
     def __setattr__(self, name: str, value: Any, /) -> None:
-        persistant = self.__dict__.get('persistant')
+        config = self.__dict__.get('config')
         if (
-            persistant is not None
+            config is not None
             and isinstance(name, str)
-            and name in persistant.registered
+            and name in config.options
         ):
-            persistant.write(name, value)
+            config.write(name, value)
         super().__setattr__(name, value)
 
 
