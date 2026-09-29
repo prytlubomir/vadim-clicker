@@ -46,7 +46,7 @@ class PersistantSettings:
         if not self.config.has_option(self.name, name):
             raise KeyError(f'option "{name}" is not registered!')
         self.config[self.name][name] = value
-        thr = threading.Thread(target=self._update)
+        thr = threading.Thread(target=self._update, args=[name])
         thr.start()
         thr.join()
         
@@ -57,7 +57,14 @@ class PersistantSettings:
         final_value = self.registered['name'](config_value)
         return final_value
 
-    def _update(self):
+    def _update(self, name):
+        config_ = configparser.ConfigParser()
+        config_.read(self.__filepath)
+        for section in config_.sections():
+            if section != self.name:
+                for option in config_.options(section):
+                    self.config[section][option] = config_[section][option]
+
         with open(self.__filepath, mode="w", encoding="utf-8") as configfile:
             self.config.write(configfile)
         
