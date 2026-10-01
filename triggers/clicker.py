@@ -20,10 +20,10 @@ import mouse
 class Clicker(Trigger):
     ''' Clicker trigger '''
     
-    def __init__(self, hotkey: str = 'f7', timeout: int = 1):
+    def __init__(self, hotkey: str = 'f7', timeout: float = 1):
         super().__init__(hotkey, self.toggle, 'Clicker')
         self.active = False
-        self.timeout = timeout
+        self.timeout = self.config.add_option('timeout', float, value=timeout)
         self.thread = Thread(target=self.callback)
     
     
