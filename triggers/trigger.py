@@ -38,28 +38,27 @@ class Config:
 
     def add_option(self, option, transformer=lambda x: x, **kwargs):
         setting = {option: transformer}
-        value = ''
-        if 'value' in kwargs:
-            value = kwargs['value']
-            setattr(self, option, value)
-        self.config[self.section][option] = str(value)
-        print('setting:', setting)
         self.options.update(setting)
+        value = self.read(option)
+        if not value and 'value' in kwargs:
+            value = kwargs['value']
+            self.config[self.section][option] = str(value)
+        return value
 
     def write(self, option, value=''):
         if not self.config.has_option(self.section, option):
             raise KeyError(f'option "{option}" is not registered!')
-        self.config[self.section][option] = value
+        self.config[self.section][option] = str(value)
         thr = threading.Thread(target=self.update_file)
         thr.start()
         thr.join()
     
     def read(self, option):
         if not self.config.has_option(self.section, option):
-            return None
+            return ""
         self.update_instace()
         config_value = self.config[self.section][option]
-        final_value = self.registered[option](config_value)
+        final_value = self.options[option](config_value)
         return final_value
 
     def update_instace(self, stale_only=False):
@@ -105,7 +104,7 @@ class Trigger:
     def __init__(self, hotkey: str, callback: Callable | None = None, name: str = 'Trigger'):
         self.name = name
         self.config = Config(self.name)
-        self.config.add_option('hotkey')
+        self.hotkey = self.config.add_option('hotkey')
         if callback:
             self.callback = callback
         self.map_trigger(hotkey)
