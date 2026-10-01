@@ -18,7 +18,7 @@ class NumberInput(Input, TextInput):
 
     def on_trigger(self, inst, trigger, *args, **kwargs):
         print('numberinput.timeout', trigger.timeout)
-        self.text = str(trigger.timeout)
+        self.text = str(1 / trigger.timeout)
 
     def on_focus(self, instance, value, *args, **kwargs):
         super().on_focus(instance, value, *args, **kwargs)
