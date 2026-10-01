@@ -16,6 +16,10 @@ class NumberInput(Input, TextInput):
     def _calc_timeout(self):
         return 1 / float(self.text)
 
+    def on_trigger(self, inst, trigger, *args, **kwargs):
+        print('numberinput.timeout', trigger.timeout)
+        self.text = str(trigger.timeout)
+
     def on_focus(self, instance, value, *args, **kwargs):
         super().on_focus(instance, value, *args, **kwargs)
         if not value:
