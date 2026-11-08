@@ -33,12 +33,12 @@ If you don't like the default hotkeys, you can choose between two ways to change
 
 #### A simple GUI
 
-<img alt="GUI window" src="https://vadimsclicker.pryt.space/gui.png" width="250"/>
+<img alt="GUI window" src="https://vadimsclicker.pryt.space/cdn/gui.png" width="250"/>
 
 
 #### A light TUI
 
-<img alt="Terminal User Interface" src="https://vadimsclicker.pryt.space/tui.png" width="700"/>
+<img alt="Terminal User Interface" src="https://vadimsclicker.pryt.space/cdn/tui.png" width="700"/>
 
 
 ## Build from source
