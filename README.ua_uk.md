@@ -32,11 +32,11 @@
 
 ### Через графічну панель керування
 
-<img alt="Графічний інтерфейс" src="https://vadimsclicker.pryt.space/gui.png" width="250"/>
+<img alt="Графічний інтерфейс" src="https://vadimsclicker.pryt.space/cdn/gui.png" width="250"/>
 
 ### Через термінальний інтерфейс
 
-<img alt="Термінальний інтерфейс" src="https://vadimsclicker.pryt.space/tui.png" width="700"/>
+<img alt="Термінальний інтерфейс" src="https://vadimsclicker.pryt.space/cdn/tui.png" width="700"/>
 
 ## Зібрати з вихідного коду
 
