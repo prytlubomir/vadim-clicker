@@ -16,7 +16,7 @@ Click LMB untill prompted to stop.
 
 ### Autoholder
 
-Press and hold LBM untill released (either by a manual click, or by an automatic click)
+Press and hold LMB until released (either by a manual click, or by an automatic click)
 
 ## Usage
 
