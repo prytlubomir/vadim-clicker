@@ -6,7 +6,7 @@ Created by the request of Vadim.
 
 ## Download for Windows
 
-You can download an executable from the [official website](https://vadimsclicker.pryt.space/).
+You can download an executable from the [project's website](https://vadimsclicker.pryt.space/).
 
 ## Features
 
@@ -16,7 +16,7 @@ Click LMB untill prompted to stop.
 
 ### Autoholder
 
-Press and hold LBM untill released (either by manual click, or by automatic click)
+Press and hold LBM untill released (either by a manual click, or by an automatic click)
 
 ## Usage
 
@@ -35,11 +35,9 @@ If you don't like the default hotkeys, you can choose between two ways to change
 
 <img alt="GUI window" src="https://vadimsclicker.pryt.space/cdn/gui.png" width="250"/>
 
-
 #### A light TUI
 
 <img alt="Terminal User Interface" src="https://vadimsclicker.pryt.space/cdn/tui.png" width="700"/>
-
 
 ## Build from source
 
