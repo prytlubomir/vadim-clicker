@@ -16,4 +16,5 @@ jobs:
         run: uv sync
       - name: Run the build script
         run: uv run build.py
-          
+      - name: Build a ZIP archive
+        run: Compress-Archive -Path ./dist/vadim-clicker.dist/* -Destination VadimsClicker.zip
