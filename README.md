@@ -49,3 +49,12 @@ If you don't like the default hotkeys, you can choose between two ways to change
 `uv sync`
 ### Build
 `uv run build.py`
+
+
+## Feature ideas
+
+* Hotkey for preset
+  - Multiple hotkeys for one action
+  - Different settings for each hotkey
+  - Preset list menu
+  - Preset name field
