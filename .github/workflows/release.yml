@@ -20,7 +20,7 @@ jobs:
       - name: Run the build script
         run: uv run build.py
       - name: Build a ZIP archive
-        run: Compress-Archive -Path uix/* -Destination VadimsClicker.zip
+        run: Compress-Archive -Path ./dist/vadim-clicker.dist/* -Destination VadimsClicker.zip
       - name: Get commit message first line
         id: message_first_line
         shell: pwsh
