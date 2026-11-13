@@ -10,14 +10,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
-      - name: Install uv
-        uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2
-      - name: Install dependencies
-        run: uv sync
-      - name: Run the build script
-        run: uv run build.py
+      # - name: Install uv
+      #   uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2
+      # - name: Install dependencies
+      #   run: uv sync
+      # - name: Run the build script
+      #   run: uv run build.py
       - name: Build a ZIP archive
-        run: Compress-Archive -Path ./dist/vadim-clicker.dist/* -Destination VadimsClicker.zip
+        run: Compress-Archive -Path uix/* -Destination VadimsClicker.zip
       - name: Get commit message first line
         id: message_first_line
         shell: pwsh
@@ -39,11 +39,11 @@ jobs:
           prerelease: false
       - name: Upload Release Asset
         id: upload-release-asset 
-        uses: actions/upload-release-asset@v1
+        uses: actions/upload-release-asset@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
           asset_path: VadimsClicker.zip
           asset_name: VadimsClicker.zip
-          asset_content_type: application/zip      
+          asset_content_type: application/zip
