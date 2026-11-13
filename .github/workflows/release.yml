@@ -4,6 +4,9 @@ on:
     branches:
       - workflows
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: windows-latest
@@ -26,24 +29,14 @@ jobs:
         run: |
           $firstLine = (([string]$env:INPUT) -split '\r?\n', 2)[0].Trim()
           "first_line=$firstLine" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create draft release
+        uses: softprops/action-gh-release@v3
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ steps.message_first_line.outputs.firstline }}
+          tag_name: draft-${{ github.run_id }}
+          target_commitish: ${{ github.sha }}
+          name: ${{ steps.message_first_line.outputs.first_line }}
           body: ${{ github.event.head_commit.message }}
           draft: true
           prerelease: false
-      - name: Upload Release Asset
-        id: upload-release-asset 
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-          asset_path: VadimsClicker.zip
-          asset_name: VadimsClicker.zip
-          asset_content_type: application/zip
+          files: VadimsClicker.zip
+          fail_on_unmatched_files: true
