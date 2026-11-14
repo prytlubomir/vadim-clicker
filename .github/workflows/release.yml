@@ -17,8 +17,33 @@ jobs:
         uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2
       - name: Install dependencies
         run: uv sync
-      - name: Run the build script
-        run: uv run build.py
+      - name: Build GUI with Nuitka
+        uses: Nuitka/Nuitka-Action@main
+        with:
+          nuitka-version: main
+          script-name: gui.py
+          mode: standalone
+          include-data-files: ./vadimsclicker.kv=vadimsclicker.kv
+          include-data-dir: |
+            ./src=src
+            ./uix=uix
+          output-dir: ./dist
+          window-console-mode: disabled
+          window-icon-from-ico: ./design/logo.png
+      - name: Build TUI with Nuitka
+        uses: Nuitka/Nuitka-Action@main
+        with:
+          nuitka-version: main
+          script-name: tui.py
+          mode: standalone
+          include-data-files: ./src/ascii.txt=src/ascii
+          output-dir: ./dist
+          window-console-mode: force
+          window-icon-from-ico: ./design/logo.png
+      - name: Rename dist directory
+        run: rni ./dist/gui.dist ./dist/vadim-clicker.dist
+      - name: Move TUI binary
+        run: mv ./dist/tui.dist/tui.exe', './dist/vadim-clicker.dist/tui.exe'
       - name: Build a ZIP archive
         run: Compress-Archive -Path ./dist/vadim-clicker.dist/* -Destination VadimsClicker.zip
       - name: Get commit message first line
