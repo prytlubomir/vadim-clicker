@@ -17,6 +17,8 @@ jobs:
         uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2
       - name: Install dependencies
         run: uv sync
+      - name: Activate venv
+        run: .venv\Scripts\Activate.ps1
       - name: Build GUI with Nuitka
         uses: Nuitka/Nuitka-Action@main
         with:
