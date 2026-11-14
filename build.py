@@ -33,6 +33,8 @@ def exc(cmd):
     Compiles a multiline command into one line and executes it.
     '''
     command = ' '.join(cmd.split())
+    inline_params = ''.join(sys.argv[1:])
+    command += ' ' + inline_params
     result = os.system(command)
     if result:
         raise RuntimeError(f"Command failed ({result}): {command}")
