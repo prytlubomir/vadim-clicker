@@ -32,7 +32,11 @@ def exc(cmd):
     
     Compiles a multiline command into one line and executes it.
     '''
-    return os.system(' '.join(cmd.split()))
+    command = ' '.join(cmd.split())
+    result = os.system(command)
+    if result:
+        raise RuntimeError(f"Command failed ({result}): {command}")
+    return result
 
 
 def build():
