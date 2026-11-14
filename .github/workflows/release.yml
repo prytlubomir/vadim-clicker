@@ -28,8 +28,8 @@ jobs:
             ./src=src
             ./uix=uix
           output-dir: ./dist
-          window-console-mode: disabled
-          window-icon-from-ico: ./design/logo.png
+          windows-console-mode: disabled
+          windows-icon-from-ico: ./design/logo.png
       - name: Build TUI with Nuitka
         uses: Nuitka/Nuitka-Action@main
         with:
@@ -38,8 +38,8 @@ jobs:
           mode: standalone
           include-data-files: ./src/ascii.txt=src/ascii
           output-dir: ./dist
-          window-console-mode: force
-          window-icon-from-ico: ./design/logo.png
+          windows-console-mode: force
+          windows-icon-from-ico: ./design/logo.png
       - name: Rename dist directory
         run: rni ./dist/gui.dist ./dist/vadim-clicker.dist
       - name: Move TUI binary
