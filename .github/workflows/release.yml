@@ -28,7 +28,7 @@ jobs:
             ./src=src
             ./uix=uix
           output-dir: ./dist
-          windows-console-mode: disabled
+          windows-console-mode: disable
           windows-icon-from-ico: ./design/logo.png
       - name: Build TUI with Nuitka
         uses: Nuitka/Nuitka-Action@main
