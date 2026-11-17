@@ -4,16 +4,13 @@ from kivy.properties import (
     ListProperty
 )
 
+from uix.framebackground import FrameBackground
+
 from uix.section import Section
 
 
 class TopLayout(Section):
     triggers = ListProperty()
-
-
-class Background(Widget):
-    line_gap = NumericProperty(7)
-    line_width = NumericProperty(1)
 
 
 class RootWidget(Widget):
