@@ -36,6 +36,7 @@ def print_info(triggers: list[Trigger]):
     pretty_table: PrettyTable = create_trigger_table(trigger_table)
     print(pretty_table)
     print(messages.remapping_instruction)
+    print(messages.quit_instruction)
 
 
 def validate_id(id: str, triggers: list[Trigger]) -> int | None:
@@ -54,6 +55,8 @@ def tui(triggers: list[Trigger]):
     print_info(triggers)
     while True:
         id = input('ID: ')
+        if id in ['q', 'quit', 'exit', 'ext']:
+            sys.exit()
         index = validate_id(id, triggers)
         if index != None:
             triggers[index].remap_trigger()
