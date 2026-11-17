@@ -28,7 +28,7 @@ class Config:
         self.config = self.read_file()
         if not self.config.has_section(self.section):
             self.config[self.section] = {}
-            self._update()
+            self.update_file()
         self.options = {}
 
     def read_file(self):
@@ -46,7 +46,7 @@ class Config:
         return value
 
     def write(self, option, value=''):
-        if not self.config.has_option(self.section, option):
+        if option not in self.options:
             raise KeyError(f'option "{option}" is not registered!')
         self.config[self.section][option] = str(value)
         thr = threading.Thread(target=self.update_file)
