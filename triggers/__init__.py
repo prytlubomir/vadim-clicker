@@ -2,6 +2,8 @@ from .trigger import Trigger
 from .clicker import Clicker
 from .holder import Holder
 
+import loc
+
 
 def __dir__():
     dir_list = dir()
@@ -18,7 +20,7 @@ def __getattr__(name):
     if name == "triggers_list":
         from configparser import ConfigParser
         config = ConfigParser()
-        config.read('./settings.ini')
+        config.read(loc.settings)
 
         clicker_hotkey = read_config(config, 'Clicker', 'hotkey', 'f7')
         holder_hotkey = read_config(config, 'Holder', 'hotkey', 'f8')

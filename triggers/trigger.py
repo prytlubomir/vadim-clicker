@@ -19,9 +19,11 @@ import time
 
 import keyboard
 
+import loc
+
 
 class Config:
-    __filepath = "./settings.ini"
+    __filepath = loc.settings
     
     def __init__(self, section=''):
         self.section = section if section else type(self).__name__
