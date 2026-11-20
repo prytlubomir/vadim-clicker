@@ -33,10 +33,42 @@ class Config:
             self.update_file()
         self.options = {}
 
+    def update_file(self):
+        self.update_instace(stale_only=True)
+        with open(self.__filepath, mode="w", encoding="utf-8") as config_file:
+            self.config.write(config_file)
+
+    def update_instace(self, stale_only=False):
+        config = self.read_file()
+        for section in config.sections():
+            if stale_only and section == self.section:
+                continue
+            if section not in self.config.sections():
+                self.config[section] = {}
+            for opt in config.options(section):
+                self.config[section][opt] = config[section][opt]
+
     def read_file(self):
         config = configparser.ConfigParser()
         config.read(self.__filepath)
+        for sec in config.sections():
         return config
+
+    def read(self, option):
+        if not self.config.has_option(self.section, option):
+            return ""
+        self.update_instace()
+        config_value = self.config[self.section][option]
+        final_value = self.options[option](config_value)
+        return final_value
+
+    def write(self, option, value=''):
+        if option not in self.options:
+            raise KeyError(f'option "{option}" is not registered!')
+        self.config[self.section][option] = str(value)
+        thr = threading.Thread(target=self.update_file)
+        thr.start()
+        thr.join()
 
     def add_option(self, option, transformer=lambda x: x, **kwargs):
         setting = {option: transformer}
@@ -46,35 +78,6 @@ class Config:
             value = kwargs['value']
             self.config[self.section][option] = str(value)
         return value
-
-    def write(self, option, value=''):
-        if option not in self.options:
-            raise KeyError(f'option "{option}" is not registered!')
-        self.config[self.section][option] = str(value)
-        thr = threading.Thread(target=self.update_file)
-        thr.start()
-        thr.join()
-    
-    def read(self, option):
-        if not self.config.has_option(self.section, option):
-            return ""
-        self.update_instace()
-        config_value = self.config[self.section][option]
-        final_value = self.options[option](config_value)
-        return final_value
-
-    def update_instace(self, stale_only=False):
-        config = self.read_file()
-        for section in config.sections():
-            if stale_only and section == self.section:
-                continue
-            for opt in config.options(section):
-                self.config[section][opt] = config[section][opt]
-
-    def update_file(self):
-        self.update_instace(stale_only=True)
-        with open(self.__filepath, mode="w", encoding="utf-8") as config_file:
-            self.config.write(config_file)
 
     # def _update(self):
     #     '''
