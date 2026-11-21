@@ -51,7 +51,6 @@ class Config:
     def read_file(self):
         config = configparser.ConfigParser()
         config.read(self.__filepath)
-        for sec in config.sections():
         return config
 
     def read(self, option):
