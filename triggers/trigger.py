@@ -77,28 +77,6 @@ class Config:
         thr = threading.Thread(target=self.update_file)
         thr.start()
         thr.join()
-
-    # def _update(self):
-    #     '''
-    #     Read the config file again and update the parts of self.config that are not related to the current instance with the values from the file.
-    #     Then, rewrite the file with the data from self.config.
-    #     Why?
-    #     Because an instance of this class is responsible for only one section of the whole config, and instances don't talk to each other,
-    #     so data from other sections becomes stale.
-    #     ConfigParser does not allow to override only a single section, so updating the file without updating the instance first
-    #     overrides changes made by other instances.
-    #     '''
-    #     current_config = configparser.ConfigParser()
-    #     current_config.read(self.__filepath)
-        
-    #     for section in current_config.sections():
-    #         if section == self.section:
-    #             continue
-    #         for opt in current_config.options(section):
-    #             self.config[section][opt] = current_config[section][opt]
-
-    #     with open(self.__filepath, mode="w", encoding="utf-8") as configfile:
-    #         self.config.write(configfile)
         
 
 
