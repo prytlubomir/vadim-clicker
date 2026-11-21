@@ -53,6 +53,15 @@ class Config:
         config.read(self.__filepath)
         return config
 
+    def add_option(self, option, transformer=lambda x: x, **kwargs):
+        setting = {option: transformer}
+        self.options.update(setting)
+        value = self.read(option)
+        if not value and 'value' in kwargs:
+            value = kwargs['value']
+            self.config[self.section][option] = str(value)
+        return value
+
     def read(self, option):
         if not self.config.has_option(self.section, option):
             return ""
@@ -68,15 +77,6 @@ class Config:
         thr = threading.Thread(target=self.update_file)
         thr.start()
         thr.join()
-
-    def add_option(self, option, transformer=lambda x: x, **kwargs):
-        setting = {option: transformer}
-        self.options.update(setting)
-        value = self.read(option)
-        if not value and 'value' in kwargs:
-            value = kwargs['value']
-            self.config[self.section][option] = str(value)
-        return value
 
     # def _update(self):
     #     '''
