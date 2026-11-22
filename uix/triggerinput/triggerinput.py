@@ -44,4 +44,8 @@ class TriggerInput(Input, Button):
         super().on_focus(inst, focused)
         if not focused:
             self.trigger.cancel_remap()
+            race_counter = 0
+            while self.trigger.remapping:
+                race_counter += 1
+            print("Race condition prevented", race_counter, "times")
             self.text = self.trigger.hotkey
