@@ -87,6 +87,7 @@ class Trigger:
         self.name = name
         self.config = Config(self.name)
         self.hotkey = self.config.add_option('hotkey')
+        self.remapping = False
         if callback:
             self.callback = callback
         self.map_trigger(hotkey)

@@ -16,7 +16,7 @@ class TriggerInput(Input, Button):
     
     def on_trigger(self, obj, trigger):
         ''' Update trigger's hotkey when the trigger is the in the layout. '''
-        self.text = trigger.hotkey
+        self.text = trigger.get_hotkey()
 
     
     def _compile_hotkey(self, progress):

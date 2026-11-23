@@ -15,7 +15,7 @@ def generate_trigger_table(triggers: list[Trigger]) -> Table:
     ''' Put the data into a 2d list '''
     table = []
     for id, trigger in enumerate(triggers):
-        table.append([id, trigger.name, trigger.hotkey])
+        table.append([id, trigger.name, trigger.get_hotkey()])
     
     return table
 
