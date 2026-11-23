@@ -116,7 +116,6 @@ class Trigger:
     def remap_trigger(self, hotkey: str = '') -> str | None:
         ''' Change hotkey '''
         self.remapping = True
-        self.cancelled = False
         
         if hotkey:
             new_hotkey = hotkey
@@ -124,7 +123,7 @@ class Trigger:
             time.sleep(0.3)
             new_hotkey = keyboard.read_hotkey()
 
-        if self.cancelled:
+        if not self.remapping:
             return None
         
         keyboard.remove_hotkey(self.handler)
@@ -133,7 +132,21 @@ class Trigger:
         return new_hotkey
 
     def cancel_remap(self):
-        self.cancelled = True
+        self.remapping = False
+
+
+    def get_hotkey(self, ensure: bool = False) -> str | bool:
+        '''
+        Returns hotkey compination as a string if available;
+        Returns False if hotkey combination is being modified.
+        Args:
+            ensure: bool - wait until the hotkey is available. BLOCKING!!!
+        '''
+        if self.remapping and not ensure:
+            return False
+        while self.remapping and ensure:
+            continue
+        return self.hotkey
 
 
     def input_progress(self):
