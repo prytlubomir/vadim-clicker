@@ -135,12 +135,14 @@ class Trigger:
         self.remapping = False
 
 
-    def get_hotkey(self, ensure: bool = False) -> str | bool:
+    def get_hotkey(self, ensure: bool = True) -> str | bool:
         '''
-        Returns hotkey compination as a string if available;
-        Returns False if hotkey combination is being modified.
+        Blocks the execution until the hotkey is updated if remap is in progress.
         Args:
-            ensure: bool - wait until the hotkey is available. BLOCKING!!!
+            ensure: bool - wait until the hotkey is available (default = True)
+        
+        Return hotkey combination as a string;
+        Return False if hotkey combination is being modified and ensure = False
         '''
         if self.remapping and not ensure:
             return False
