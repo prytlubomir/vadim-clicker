@@ -40,7 +40,7 @@ Section ""
     WriteUninstaller "$INSTDIR\uninstall.exe"
     
     WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\VadimsClicker" "DisplayName" "VadimsClicker"
-    WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\VadimsClicker" "DisplayVersion" "1.2.1.0"
+    WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\VadimsClicker" "DisplayVersion" "1.2.3.0"
     WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\VadimsClicker" "Publisher" "Pryt Liubomyr"
     WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\VadimsClicker" "NoRepair" 1
     WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\VadimsClicker" "UninstallString" "$INSTDIR\uninstall.exe"
@@ -71,6 +71,7 @@ SectionEnd
 Section "Uninstall"
     RMDir /r "$INSTDIR"
     Delete "$DESKTOP\VadimsClicker.lnk"
+    Delete "$PROFILE\vadims-clicker-settings.ini"
     RMDir /r "$SMPROGRAMS\VadimsClicker"
     
     DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\VadimsClicker"

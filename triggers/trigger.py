@@ -33,6 +33,21 @@ class Config:
             self.update_file()
         self.options = {}
 
+    def update_file(self):
+        self.update_instace(stale_only=True)
+        with open(self.__filepath, mode="w", encoding="utf-8") as config_file:
+            self.config.write(config_file)
+
+    def update_instace(self, stale_only=False):
+        config = self.read_file()
+        for section in config.sections():
+            if stale_only and section == self.section:
+                continue
+            if section not in self.config.sections():
+                self.config[section] = {}
+            for opt in config.options(section):
+                self.config[section][opt] = config[section][opt]
+
     def read_file(self):
         config = configparser.ConfigParser()
         config.read(self.__filepath)
@@ -47,14 +62,6 @@ class Config:
             self.config[self.section][option] = str(value)
         return value
 
-    def write(self, option, value=''):
-        if option not in self.options:
-            raise KeyError(f'option "{option}" is not registered!')
-        self.config[self.section][option] = str(value)
-        thr = threading.Thread(target=self.update_file)
-        thr.start()
-        thr.join()
-    
     def read(self, option):
         if not self.config.has_option(self.section, option):
             return ""
@@ -63,40 +70,13 @@ class Config:
         final_value = self.options[option](config_value)
         return final_value
 
-    def update_instace(self, stale_only=False):
-        config = self.read_file()
-        for section in config.sections():
-            if stale_only and section == self.section:
-                continue
-            for opt in config.options(section):
-                self.config[section][opt] = config[section][opt]
-
-    def update_file(self):
-        self.update_instace(stale_only=True)
-        with open(self.__filepath, mode="w", encoding="utf-8") as config_file:
-            self.config.write(config_file)
-
-    # def _update(self):
-    #     '''
-    #     Read the config file again and update the parts of self.config that are not related to the current instance with the values from the file.
-    #     Then, rewrite the file with the data from self.config.
-    #     Why?
-    #     Because an instance of this class is responsible for only one section of the whole config, and instances don't talk to each other,
-    #     so data from other sections becomes stale.
-    #     ConfigParser does not allow to override only a single section, so updating the file without updating the instance first
-    #     overrides changes made by other instances.
-    #     '''
-    #     current_config = configparser.ConfigParser()
-    #     current_config.read(self.__filepath)
-        
-    #     for section in current_config.sections():
-    #         if section == self.section:
-    #             continue
-    #         for opt in current_config.options(section):
-    #             self.config[section][opt] = current_config[section][opt]
-
-    #     with open(self.__filepath, mode="w", encoding="utf-8") as configfile:
-    #         self.config.write(configfile)
+    def write(self, option, value=''):
+        if option not in self.options:
+            raise KeyError(f'option "{option}" is not registered!')
+        self.config[self.section][option] = str(value)
+        thr = threading.Thread(target=self.update_file)
+        thr.start()
+        thr.join()
         
 
 
@@ -107,6 +87,7 @@ class Trigger:
         self.name = name
         self.config = Config(self.name)
         self.hotkey = self.config.add_option('hotkey')
+        self.remapping = False
         if callback:
             self.callback = callback
         self.map_trigger(hotkey)
@@ -133,9 +114,9 @@ class Trigger:
         self.hotkey = hotkey
 
 
-    def remap_trigger(self, hotkey: str = '') -> str:
+    def remap_trigger(self, hotkey: str = '') -> str | None:
         ''' Change hotkey '''
-        self.remap_proceed = True
+        self.remapping = True
         
         if hotkey:
             new_hotkey = hotkey
@@ -143,13 +124,32 @@ class Trigger:
             time.sleep(0.3)
             new_hotkey = keyboard.read_hotkey()
 
-        if self.remap_proceed:
-            keyboard.remove_hotkey(self.handler)
-            self.map_trigger(new_hotkey)
-            return new_hotkey
+        if not self.remapping:
+            return None
+        
+        keyboard.remove_hotkey(self.handler)
+        self.map_trigger(new_hotkey)
+        self.remapping = False
+        return new_hotkey
 
     def cancel_remap(self):
-        self.remap_proceed = False
+        self.remapping = False
+
+
+    def get_hotkey(self, ensure: bool = True) -> str | bool:
+        '''
+        Blocks the execution until the hotkey is updated if remap is in progress.
+        Args:
+            ensure: bool - wait until the hotkey is available (default = True)
+        
+        Return hotkey combination as a string;
+        Return False if hotkey combination is being modified and ensure = False
+        '''
+        if self.remapping and not ensure:
+            return False
+        while self.remapping and ensure:
+            continue
+        return self.hotkey
 
 
     def input_progress(self):
