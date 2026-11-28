@@ -1,8 +1,8 @@
 # Vadim's Clicker
 
-A mouse automation app, controlled by keyboard hotkeys.
+A mouse automation app controlled by keyboard hotkeys.
 
-Created by the request of Vadim.
+Created at the request of Vadim.
 
 ## Download for Windows
 
